@@ -131,6 +131,7 @@ class scnMenu extends Phaser.Scene {
       btnPlay.on('pointerout', function (pointer) { this.clearTint(); });
       btnPlay.on('pointerup', function (pointer) {
          this.clearTint();
+         snd_efek.play();
          this.scene.scene.start('scnPlay');
       });
 
@@ -363,7 +364,16 @@ class scnPlay extends Phaser.Scene {
       if (this.isGameRunning) {
          this.tapImage.setActive(false).setVisible(false);
          this.tapTxt.setActive(false).setVisible(false);
-         this.snd_terbang.setVolume(1);
+
+         let soundState = localStorage['sound_enabled'] || 1;
+         if (soundState == 0) {
+            this.snd_terbang.setVolume(0);
+            this.snd_meledak.setVolume(0);
+         } else {
+            this.snd_terbang.setVolume(1);
+            this.snd_meledak.setVolume(1);
+         }
+
 
          // MENGGERAKKAN GROUND
          for (let i = 0; i < this.grounds.length; i++) {
@@ -547,6 +557,7 @@ class scnGameOver extends Phaser.Scene {
       btnPlay.on('pointerout', function (pointer) { this.clearTint(); });
       btnPlay.on('pointerup', function (pointer) {
          this.clearTint();
+         snd_efek.play();
          this.scene.scene.start('scnPlay');
       });
    }
